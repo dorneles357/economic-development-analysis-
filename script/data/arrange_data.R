@@ -19,7 +19,7 @@ tab1 <- read_excel("data/variables/tab1.xlsx",
 #
 tab2 <- read_excel("data/variables/tab2.xlsx", 
                    col_names = FALSE, col_types = c("numeric", 
-                                                    "text", "text", "text", "text", "text", 
+                                                    "text", "text", "text", "numeric", "text", 
                                                     "text", "text", "text"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
@@ -71,7 +71,7 @@ tab10 <- read_excel("data/variables/tab10.xlsx",
 #
 tab12 <- tab12 <- read_excel("data/variables/tab12.xlsx", 
                              col_names = FALSE, col_types = c("numeric", 
-                                                              "text", "text", "text"))%>%
+                                                              "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
     territorialidades = ...2,
     vab_servicos = ...4)%>%
@@ -79,7 +79,7 @@ tab12 <- tab12 <- read_excel("data/variables/tab12.xlsx",
 #
 tab13 <- read_excel("data/variables/tab13.xlsx", 
                     col_names = FALSE, col_types = c("numeric", 
-                                                     "text", "text", "text"))%>%
+                                                     "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
          vab_industria = ...4)%>%
@@ -87,7 +87,7 @@ tab13 <- read_excel("data/variables/tab13.xlsx",
 #
 tab14 <- read_excel("data/variables/tab14.xlsx", 
                     col_names = FALSE, col_types = c("numeric", 
-                                                     "text", "text", "text"))%>%
+                                                     "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
          vab_agropecuaria = ...4)%>%
@@ -188,4 +188,4 @@ country2 <- filter(country, code_muni %in% code_muni_amauc)
 
 #data ACP -----------------------------------------------------------
 
-data_acp <- data
+data_acp <- data[3:19]
