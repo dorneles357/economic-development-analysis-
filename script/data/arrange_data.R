@@ -3,8 +3,9 @@ code_muni_sc <- read_excel("data/code/code_muni_sc.xlsx",
                                    col_types = c("numeric", "text", "text"))%>%
   select(code_muni, territorialidades)
 #código municípios AMAUC
-code.muni.amauc <- read_csv("data/code/code_muni_amauc.csv")
-code_muni_amauc <- array(code.muni.amauc$code_muni)
+code_muni_oeste <- read_excel("data/code/code_muni_oeste.xlsx", 
+                              col_types = c("numeric", "text", "text"))
+code_muni_oeste <- array(code_muni_oeste$code_muni)
 
 # Tabelas de observação  --------------------------------------------------
 
@@ -111,53 +112,53 @@ tab18 <- read_excel("data/variables/tab18.xlsx")%>%
 
 # filtrar variáveis  ------------------------------------------------------
 
-x1 <- filter(tab1, code_muni %in% code_muni_amauc)
+x1 <- filter(tab1, code_muni %in% code_muni_oeste)
 
-x2 <- filter(tab2, code_muni %in% code_muni_amauc)
+x2 <- filter(tab2, code_muni %in% code_muni_oeste)
 
 x3 <- inner_join(code_muni_sc, tab3, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x4 <- inner_join(code_muni_sc, tab4, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x5 <- inner_join(code_muni_sc, tab5, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x6 <- inner_join(code_muni_sc, tab6, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x7 <- inner_join(code_muni_sc, tab7, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x8 <- inner_join(code_muni_sc, tab8, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x9 <- inner_join(code_muni_sc, tab9, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x10 <- inner_join(code_muni_sc, tab10, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x11 <- ''
 
-x12 <- filter(tab12, code_muni %in% code_muni_amauc)
+x12 <- filter(tab12, code_muni %in% code_muni_oeste)
 
-x13 <- filter(tab13, code_muni %in% code_muni_amauc)
+x13 <- filter(tab13, code_muni %in% code_muni_oeste)
 
-x14 <- filter(tab14, code_muni %in% code_muni_amauc)
+x14 <- filter(tab14, code_muni %in% code_muni_oeste)
 
 x15 <- inner_join(code_muni_sc, tab15, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x16 <- inner_join(code_muni_sc, tab16, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x17 <- inner_join(code_muni_sc, tab17, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 x18 <- inner_join(code_muni_sc, tab18, by = 'territorialidades')%>%
-  filter(code_muni %in% code_muni_amauc)
+  filter(code_muni %in% code_muni_oeste)
 
 # join variables in data --------------------------------------------------------------------
 
@@ -184,7 +185,7 @@ data <- inner_join(x1, x2, suffix = c("code_muni", "territorialidades"))%>%
 country <- read_municipality(code_muni = "SC", year = 2010)
 
 #select contry's of AMAUC
-country2 <- filter(country, code_muni %in% code_muni_amauc)
+country2 <- filter(country, code_muni %in% code_muni_oeste)
 
 #data ACP -----------------------------------------------------------
 
