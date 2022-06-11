@@ -37,14 +37,14 @@ tab4 <- read_excel("data/variables/tab4.xlsx")%>%
 #
 tab5 <- read_excel("data/variables/tab5.xlsx", 
                    col_names = FALSE,
-                   range = "a2050:K10485")%>%
+                   range = "a4347:K4639")%>%
   rename(territorialidades = ...1,
          num_estab_saude = ...3)%>%
   select(territorialidades, num_estab_saude)
 #
 tab6 <- read_excel("data/variables/tab6.xlsx", 
                    col_names = FALSE,
-                   range = "a2050:K10485")%>%
+                   range = "a4347:K4639")%>%
   rename(territorialidades = ...1,
          num_leitos_estab_saude = ...3)%>%
   select(territorialidades, num_leitos_estab_saude)
@@ -63,14 +63,21 @@ tab9 <- read_excel("data/variables/tab9.xlsx")%>%
 #
 tab10 <- read_excel("data/variables/tab10.xlsx", 
                     col_names = FALSE,
-                    range = "a2050:K10485")%>%
+                    range = "a4347:K4639")%>%
   rename(territorialidades = ...1,
          pib_percapta = ...4)%>%
   select(territorialidades, pib_percapta)
 #
 
+tab11 <- read_excel("data/variables/tab11.xlsx", 
+                    range = "A4249:C4542", col_types = c("text", "text", 
+                                                         "numeric"), col_names = FALSE)%>%
+  rename(territorialidades = ...2,
+         receitas = ...3)%>%
+  select(territorialidades, receitas)
+  
 #
-tab12 <- tab12 <- read_excel("data/variables/tab12.xlsx", 
+tab12 <- read_excel("data/variables/tab12.xlsx", 
                              col_names = FALSE, col_types = c("numeric", 
                                                               "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
@@ -140,7 +147,8 @@ x9 <- inner_join(code_muni_sc, tab9, by = 'territorialidades')%>%
 x10 <- inner_join(code_muni_sc, tab10, by = 'territorialidades')%>%
   filter(code_muni %in% code_muni_oeste)
 
-x11 <- ''
+x11 <- inner_join(code_muni_sc, tab11, by = 'territorialidades')%>%
+  filter(code_muni %in% code_muni_oeste)
 
 x12 <- filter(tab12, code_muni %in% code_muni_oeste)
 
