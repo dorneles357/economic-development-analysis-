@@ -19,6 +19,10 @@ data <- rename(data,
                x16 = idhm,
                x17 = ig,
                x18 = perc_coleta_lixo)
+#data ACP -----------------------------------------------------------
+
+data_acp <- data[3:19]
+
 var <- PCA(data_acp, graph = F)
 var <- PCA(data_acp, graph = T)
 

@@ -194,6 +194,4 @@ country <- read_municipality(code_muni = "SC", year = 2010)
 #select contry's of AMAUC
 country2 <- filter(country, code_muni %in% code_muni_amauc)
 
-#data ACP -----------------------------------------------------------
 
-data_acp <- data[3:19]
