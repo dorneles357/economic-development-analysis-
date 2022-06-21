@@ -1,0 +1,42 @@
+--- 
+title: " " #nome da variável
+author: " " #seu nome
+date: ' ' #data da análise
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE}
+library(readr)
+x <- read_delim("x.csv", #altere para variável em análise
+                 delim = ";", 
+                 escape_double = FALSE, 
+                col_types = cols(...1 = col_skip()), 
+                trim_ws = TRUE
+                )
+
+```
+
+
+## Teste Normal Padrão
+
+```{r echo=FALSE}
+qqnorm( x #altere para variável e observação para análise
+				)
+qqline(x #altere para variável e observação para análise
+       )
+```
+
+## Teste de normalidade Shapiro-Wilk 
+Adotaremos uma medida significativa com adequação a 5%. Neste caso, Se p-valor > 0, 05 podemos considerar nosso conjunto de dados normais. Caso o contrario, p-valor < 0,05 o nosso conjunto não é ajustado a distribuição normal. 
+```{r}
+shapiro.test(x #altere para variável e observação para análise
+       )
+```
+

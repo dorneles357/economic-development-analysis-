@@ -1,0 +1,45 @@
+--- 
+title: " " #nome da variável
+author: " " #seu nome
+date: ' ' #data da análise
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE}
+library(readr)
+x <- read_delim("x.csv", #altere para variável em análise
+                 delim = ";", 
+                 escape_double = FALSE, 
+                col_types = cols(...1 = col_skip()), 
+                trim_ws = TRUE
+                )
+
+```
+
+
+## Análise exploratória dos dados
+
+```{r echo=FALSE}
+summary( x #altere para variável e observação para análise
+				)
+```
+
+
+## Boxplot
+
+```{r echo=FALSE}
+boxplot( x, #altere para variável e observação para análise
+				ylab = 'título' #Título da variável
+				)
+```
+
+## Descrição
+
+A região A se destaca dos demais municípios se afastado da tendência central.
