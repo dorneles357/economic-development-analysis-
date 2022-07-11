@@ -1,6 +1,9 @@
 # ACP ---------------------------------------------------------------------
-attach(data)
-data <- rename(data, 
+library(readr)
+cpa_amauc <- read_delim("data/cpa-amauc.csv", 
+                        delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
+                        trim_ws = TRUE)
+data <- rename(cpa_amauc, 
                x1 = densidade_demografica,
                x2 = percent_pop_urbana,
                x3 = percent_domc_energia_eletrica,
@@ -18,16 +21,11 @@ data <- rename(data,
                x15 = taxa_mortalidade_infantil,
                x16 = idhm,
                x17 = ig,
-               x18 = perc_coleta_lixo)
-#data ACP -----------------------------------------------------------
-
-data_acp <- data[3:19]
-
-var <- PCA(data_acp, graph = F)
-var <- PCA(data_acp, graph = T)
-
-
-print(var)
+               x18 = perc_coleta_lixo) %>%
+  select(-code_muni)
+data <- data %>% janitor::clean_names()
+#data CPA -----------------------------------------------------------
+var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 17)
 
 eig.var <- get_eigenvalue(var)
 
@@ -65,9 +63,14 @@ fviz_contrib(var, choice = "var", axes = 2, top = 18,
 var.desc <- dimdesc(var, axes = c(1, 2, 3, 4), proba = 0.05)
 print(var.desc)
 
+#Separando grupos 
+g1 <- data %>% select(territorialidades, x3, x7, x15)
+
+g2 <- data %>% select(territorialidades, x1, x2, x9, x10, x11, x13)
+
+g3 <- data %>% select(territorialidades, x4, x5, x6, x8, x12, x14, x16, x17, x18)
 
 # exportar dados  ---------------------------------------------------------
-
 
 write.infile(var, "data/acp/var.csv", sep = ";")
 
