@@ -3,26 +3,7 @@ library(readr)
 cpa_amauc <- read_delim("data/cpa-amauc.csv", 
                         delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
                         trim_ws = TRUE)
-data <- rename(cpa_amauc, 
-               x1 = densidade_demografica,
-               x2 = percent_pop_urbana,
-               x3 = percent_domc_energia_eletrica,
-               x4 = perc_domc_abstecimento_agua,
-               x5 = num_estab_saude,
-               x6 = num_leitos_estab_saude,
-               x7 = taxa_analfabetismo,
-               x8 = pop_economicamente_ativa,
-               x9 = taxa_desocupacao,
-               x10 = pib_percapta,
-               x11 = receitas,
-               x12 = vab_servicos,
-               x13 = vab_industria,
-               x14 = vab_agropecuaria,
-               x15 = taxa_mortalidade_infantil,
-               x16 = idhm,
-               x17 = ig,
-               x18 = perc_coleta_lixo) %>%
-  select(-code_muni)
+data <- select(cpa_amauc, -code_muni)
 data <- data %>% janitor::clean_names()
 #data CPA -----------------------------------------------------------
 var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 17)
