@@ -10,6 +10,7 @@ library(ggspatial)
 ##
 library(FactoMineR)
 library(factoextra)
+library(psych)
 library(janitor)
 library(rstatix)
 ##

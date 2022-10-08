@@ -6,7 +6,7 @@ cpa_amauc <- read_delim("data/cpa-amauc.csv",
 data <- select(cpa_amauc, -code_muni)
 data <- data %>% janitor::clean_names()
 #data CPA -----------------------------------------------------------
-var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 17)
+var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 17:18)
 
 data_var <- data[2:33] %>% PCA(scale.unit = T, graph = F)
 

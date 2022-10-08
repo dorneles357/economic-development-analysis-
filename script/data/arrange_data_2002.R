@@ -9,7 +9,7 @@ code_muni_amauc <- array(code.muni.amauc$code_muni)
 # Tabelas de observação  --------------------------------------------------
 
 #
-tab1 <- read_excel("data/variables/tab1.xlsx", 
+tab1 <- read_excel("data/variables/2010/tab1.xlsx", 
                    col_names = FALSE, col_types = c("numeric", 
                                                     "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
@@ -17,7 +17,7 @@ tab1 <- read_excel("data/variables/tab1.xlsx",
          x1 = ...4)%>%
   select(code_muni, territorialidades, x1)
 #
-tab2 <- read_excel("data/variables/tab2.xlsx", 
+tab2 <- read_excel("data/variables/2010/tab2.xlsx", 
                    col_names = FALSE, col_types = c("numeric", 
                                                     "text", "text", "text", "numeric", "text", 
                                                     "text", "text", "text"))%>%
@@ -26,48 +26,48 @@ tab2 <- read_excel("data/variables/tab2.xlsx",
          x2 = ...5)%>%
   select(code_muni, territorialidades, x2)
 #
-tab3 <- read_excel("data/variables/tab3.xlsx")%>%
+tab3 <- read_excel("data/variables/2010/tab3.xlsx")%>%
   rename(x3 = `% de pessoas em domicílios com energia elétrica 2010`)%>%
   select(territorialidades, x3)
 #
-tab4 <- read_excel("data/variables/tab4.xlsx")%>%
+tab4 <- read_excel("data/variables/2010/tab4.xlsx")%>%
   rename(x4 = `% da população em domicílios com água encanada 2010`)%>%
   select(territorialidades, x4)
 #
-tab5 <- read_excel("data/variables/tab5.xlsx", 
+tab5 <- read_excel("data/variables/2010/tab5.xlsx", 
                    col_names = FALSE,
                    range = "a2050:K10485")%>%
   rename(territorialidades = ...1,
          x5 = ...3)%>%
   select(territorialidades, x5)
 #
-tab6 <- read_excel("data/variables/tab6.xlsx", 
+tab6 <- read_excel("data/variables/2010/tab6.xlsx", 
                    col_names = FALSE,
                    range = "a2050:K10485")%>%
   rename(territorialidades = ...1,
          x6 = ...3)%>%
   select(territorialidades, x6)
 #
-tab7 <- read_excel("data/variables/tab7.xlsx")%>%
+tab7 <- read_excel("data/variables/2010/tab7.xlsx")%>%
   rename(x7 = `Taxa de analfabetismo - 15 anos ou mais de idade 2010`)%>%
   select(territorialidades, x7)
 #
-tab8 <- read_excel("data/variables/tab8.xlsx")%>%
+tab8 <- read_excel("data/variables/2010/tab8.xlsx")%>%
   rename(x8 = `População economicamente ativa de 18 anos ou mais de idade 2010`)%>%
   select(territorialidades, x8)
 #
-tab9 <- read_excel("data/variables/tab9.xlsx")%>%
+tab9 <- read_excel("data/variables/2010/tab9.xlsx")%>%
   rename(x9 = `Taxa de desocupação - 18 anos ou mais de idade 2010`)%>%
   select(territorialidades, x9)
 #
-tab10 <- read_excel("data/variables/tab10.xlsx", 
+tab10 <- read_excel("data/variables/2010/tab10.xlsx", 
                     col_names = FALSE,
                     range = "a2050:K10485")%>%
   rename(territorialidades = ...1,
          x10 = ...4)%>%
   select(territorialidades, x10)
 #
-tab11 <- read_excel("data/variables/tab11.xlsx", 
+tab11 <- read_excel("data/variables/2010/tab11.xlsx", 
                     range = "A4249:C4542", col_types = c("text", "text", 
                                                          "numeric"), col_names = FALSE)%>%
   rename(territorialidades = ...2,
@@ -75,7 +75,7 @@ tab11 <- read_excel("data/variables/tab11.xlsx",
   select(territorialidades, x11)
 
 #
-tab12 <- tab12 <- read_excel("data/variables/tab12.xlsx", 
+tab12 <- tab12 <- read_excel("data/variables/2010/tab12.xlsx", 
                              col_names = FALSE, col_types = c("numeric", 
                                                               "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
@@ -83,7 +83,7 @@ tab12 <- tab12 <- read_excel("data/variables/tab12.xlsx",
     x12 = ...4)%>%
   select(code_muni, territorialidades, x12)
 #
-tab13 <- read_excel("data/variables/tab13.xlsx", 
+tab13 <- read_excel("data/variables/2010/tab13.xlsx", 
                     col_names = FALSE, col_types = c("numeric", 
                                                      "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
@@ -91,7 +91,7 @@ tab13 <- read_excel("data/variables/tab13.xlsx",
          x13 = ...4)%>%
   select(code_muni, territorialidades, x13)
 #
-tab14 <- read_excel("data/variables/tab14.xlsx", 
+tab14 <- read_excel("data/variables/2010/tab14.xlsx", 
                     col_names = FALSE, col_types = c("numeric", 
                                                      "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
@@ -99,23 +99,23 @@ tab14 <- read_excel("data/variables/tab14.xlsx",
          x14 = ...4)%>%
   select(code_muni, territorialidades, x14)
 #
-tab15 <- read_excel("data/variables/tab15.xlsx")%>%
+tab15 <- read_excel("data/variables/2010/tab15.xlsx")%>%
   rename(x15 = `Mortalidade infantil 2010`)%>%
   select(territorialidades, x15)
 #
-tab16 <- read_excel("data/variables/tab16.xlsx")%>%
+tab16 <- read_excel("data/variables/2010/tab16.xlsx")%>%
   rename(x16 = `IDHM 2010`)%>%
   select(territorialidades, x16)
 #
-tab17 <- read_excel("data/variables/tab17.xlsx")%>%
+tab17 <- read_excel("data/variables/2010/tab17.xlsx")%>%
   rename(x17 = `Índice de Gini 2010`)%>%
   select(territorialidades, x17)
 #
-tab18 <- read_excel("data/variables/tab18.xlsx")%>%
+tab18 <- read_excel("data/variables/2010/tab18.xlsx")%>%
   rename(x18 = `% de pessoas em domicílios urbanos com coleta de lixo 2010`)%>%
   select(territorialidades, x18 )
 
-tab19.32 <- read_excel("data/variables/tab19-32.xlsx")%>%
+tab19.32 <- read_excel("data/variables/2010/tab19-32.xlsx")%>%
   select(territorialidades,
          x19, x20, x21, x22,
          x23, x24, x25, x26,
