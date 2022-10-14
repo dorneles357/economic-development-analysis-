@@ -2,25 +2,31 @@
 # packages ----------------------------------------------------------------
 ##
 library(readxl)
-library(tidyverse)
+library(dplyr)
+
 ##
-library(geobr)
-library(sf)
-library(ggspatial)
+library(GPArotation)
+library(psych)
+
+##
+library(shiny)
+library(shinythemes)
+
 ##
 library(FactoMineR)
 library(factoextra)
-library(psych)
 library(janitor)
-library(rstatix)
+
 ##
-library(RColorBrewer)
+#library(geobr)
+#library(sf)
+#library(ggspatial)
+
+##
+#library(RColorBrewer)
 
 
-# shiny -------------------------------------------------------------------
 
-library(shiny)
-library(shinythemes)
 
 
 
