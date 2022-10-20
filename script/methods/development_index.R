@@ -1,5 +1,11 @@
 # gross development index -------------------------------------------------
 
-factor_score <- as.data.frame(fa$scores)
+factor_score <- as.matrix(fa$scores[1:14, 1:5])
 
-factor_characteristic_root_factors <- as.data.frame(fa$Vaccounted)[1, 1:5]
+characteristic_root <- as.matrix(fa$Vaccounted[1, 1:5])
+
+
+index = (factor_score %*% characteristic_root) /  sum(characteristic_root)
+
+
+summary(index)
