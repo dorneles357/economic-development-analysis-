@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  rstudio:
+    image: rocker/rstudio
+    container_name: analytic
+    ports:
+      - "8787:8787"
+    environment:
+      - DISABLE_AUTH=true
+    volumes:
+      - ./.rstudio_config:/home/rstudio/.config/rstudio
+      - ./:/home/rstudio/workspace
+      - /data:/data
+  

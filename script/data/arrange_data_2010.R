@@ -10,112 +10,111 @@ code_muni_oeste <- array(code_muni_oeste$code_muni)
 # Tabelas de observação  --------------------------------------------------
 
 #
-tab1 <- read_excel("data/variables/tab1.xlsx", 
+tab1 <- read_excel("data/variables/2010/tab1.xlsx", 
                    col_names = FALSE, col_types = c("numeric", 
                                                     "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
-         densidade_demografica = ...4)%>%
-  select(code_muni, territorialidades, densidade_demografica)
+         x1 = ...4)%>%
+  select(code_muni, territorialidades, x1)
 #
-tab2 <- read_excel("data/variables/tab2.xlsx", 
+tab2 <- read_excel("data/variables/2010/tab2.xlsx", 
                    col_names = FALSE, col_types = c("numeric", 
                                                     "text", "text", "text", "numeric", "text", 
                                                     "text", "text", "text"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
-         percent_pop_urbana = ...5)%>%
-  select(code_muni, territorialidades, percent_pop_urbana)
+         x2 = ...5)%>%
+  select(code_muni, territorialidades, x2)
 #
-tab3 <- read_excel("data/variables/tab3.xlsx")%>%
-  rename(percent_domc_energia_eletrica = `% de pessoas em domicílios com energia elétrica 2010`)%>%
-  select(territorialidades, percent_domc_energia_eletrica)
+tab3 <- read_excel("data/variables/2010/tab3.xlsx")%>%
+  rename(x3 = `% de pessoas em domicílios com energia elétrica 2010`)%>%
+  select(territorialidades, x3)
 #
-tab4 <- read_excel("data/variables/tab4.xlsx")%>%
-  rename(perc_domc_abstecimento_agua = `% da população em domicílios com água encanada 2010`)%>%
-  select(territorialidades, perc_domc_abstecimento_agua)
+tab4 <- read_excel("data/variables/2010/tab4.xlsx")%>%
+  rename(x4 = `% da população em domicílios com água encanada 2010`)%>%
+  select(territorialidades, x4)
 #
-tab5 <- read_excel("data/variables/tab5.xlsx", 
+tab5 <- read_excel("data/variables/2010/tab5.xlsx", 
                    col_names = FALSE,
                    range = "a4347:K4639")%>%
   rename(territorialidades = ...1,
-         num_estab_saude = ...3)%>%
-  select(territorialidades, num_estab_saude)
+         x5 = ...3)%>%
+  select(territorialidades, x5)
 #
-tab6 <- read_excel("data/variables/tab6.xlsx", 
+tab6 <- read_excel("data/variables/2010/tab6.xlsx", 
                    col_names = FALSE,
                    range = "a4347:K4639")%>%
   rename(territorialidades = ...1,
-         num_leitos_estab_saude = ...3)%>%
-  select(territorialidades, num_leitos_estab_saude)
+         x6 = ...3)%>%
+  select(territorialidades, x6)
 #
-tab7 <- read_excel("data/variables/tab7.xlsx")%>%
-  rename(taxa_analfabetismo = `Taxa de analfabetismo - 15 anos ou mais de idade 2010`)%>%
-  select(territorialidades, taxa_analfabetismo)
+tab7 <- read_excel("data/variables/2010/tab7.xlsx")%>%
+  rename(x7 = `Taxa de analfabetismo - 15 anos ou mais de idade 2010`)%>%
+  select(territorialidades, x7)
 #
-tab8 <- read_excel("data/variables/tab8.xlsx")%>%
-  rename(pop_economicamente_ativa = `População economicamente ativa de 18 anos ou mais de idade 2010`)%>%
-  select(territorialidades, pop_economicamente_ativa)
+tab8 <- read_excel("data/variables/2010/tab8.xlsx")%>%
+  rename(x8 = `População economicamente ativa de 18 anos ou mais de idade 2010`)%>%
+  select(territorialidades, x8)
 #
-tab9 <- read_excel("data/variables/tab9.xlsx")%>%
-  rename(taxa_desocupacao = `Taxa de desocupação - 18 anos ou mais de idade 2010`)%>%
-  select(territorialidades, taxa_desocupacao)
+tab9 <- read_excel("data/variables/2010/tab9.xlsx")%>%
+  rename(x9 = `Taxa de desocupação - 18 anos ou mais de idade 2010`)%>%
+  select(territorialidades, x9)
 #
-tab10 <- read_excel("data/variables/tab10.xlsx", 
+tab10 <- read_excel("data/variables/2010/tab10.xlsx", 
                     col_names = FALSE,
                     range = "a4347:K4639")%>%
   rename(territorialidades = ...1,
-         pib_percapta = ...4)%>%
-  select(territorialidades, pib_percapta)
+         x10 = ...4)%>%
+  select(territorialidades, x10)
 #
-
-tab11 <- read_excel("data/variables/tab11.xlsx", 
+tab11 <- read_excel("data/variables/2010/tab11.xlsx", 
                     range = "A4249:C4542", col_types = c("text", "text", 
                                                          "numeric"), col_names = FALSE)%>%
   rename(territorialidades = ...2,
-         receitas = ...3)%>%
-  select(territorialidades, receitas)
-  
+         x11 = ...3)%>%
+  select(territorialidades, x11)
+
 #
-tab12 <- read_excel("data/variables/tab12.xlsx", 
+tab12 <- tab12 <- read_excel("data/variables/2010/tab12.xlsx", 
                              col_names = FALSE, col_types = c("numeric", 
                                                               "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
-    territorialidades = ...2,
-    vab_servicos = ...4)%>%
-  select(code_muni, territorialidades, vab_servicos)
+         territorialidades = ...2,
+         x12 = ...4)%>%
+  select(code_muni, territorialidades, x12)
 #
-tab13 <- read_excel("data/variables/tab13.xlsx", 
+tab13 <- read_excel("data/variables/2010/tab13.xlsx", 
                     col_names = FALSE, col_types = c("numeric", 
                                                      "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
-         vab_industria = ...4)%>%
-  select(code_muni, territorialidades, vab_industria)
+         x13 = ...4)%>%
+  select(code_muni, territorialidades, x13)
 #
-tab14 <- read_excel("data/variables/tab14.xlsx", 
+tab14 <- read_excel("data/variables/2010/tab14.xlsx", 
                     col_names = FALSE, col_types = c("numeric", 
                                                      "text", "text", "numeric"))%>%
   rename(code_muni = ...1,
          territorialidades = ...2,
-         vab_agropecuaria = ...4)%>%
-  select(code_muni, territorialidades, vab_agropecuaria)
+         x14 = ...4)%>%
+  select(code_muni, territorialidades, x14)
 #
-tab15 <- read_excel("data/variables/tab15.xlsx")%>%
-  rename(taxa_mortalidade_infantil = `Mortalidade infantil 2010`)%>%
-  select(territorialidades, taxa_mortalidade_infantil)
+tab15 <- read_excel("data/variables/2010/tab15.xlsx")%>%
+  rename(x15 = `Mortalidade infantil 2010`)%>%
+  select(territorialidades, x15)
 #
-tab16 <- read_excel("data/variables/tab16.xlsx")%>%
-  rename(idhm = `IDHM 2010`)%>%
-  select(territorialidades, idhm)
+tab16 <- read_excel("data/variables/2010/tab16.xlsx")%>%
+  rename(x16 = `IDHM 2010`)%>%
+  select(territorialidades, x16)
 #
-tab17 <- read_excel("data/variables/tab17.xlsx")%>%
-  rename(ig = `Índice de Gini 2010`)%>%
-  select(territorialidades, ig)
+tab17 <- read_excel("data/variables/2010/tab17.xlsx")%>%
+  rename(x17 = `Índice de Gini 2010`)%>%
+  select(territorialidades, x17)
 #
-tab18 <- read_excel("data/variables/tab18.xlsx")%>%
-  rename(perc_coleta_lixo = `% de pessoas em domicílios urbanos com coleta de lixo 2010`)%>%
-  select(territorialidades, perc_coleta_lixo )
+tab18 <- read_excel("data/variables/2010/tab18.xlsx")%>%
+  rename(x18 = `% de pessoas em domicílios urbanos com coleta de lixo 2010`)%>%
+  select(territorialidades, x18 )
 
 # filtrar variáveis  ------------------------------------------------------
 
@@ -179,6 +178,7 @@ data <- inner_join(x1, x2, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x8, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x9, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x10, suffix = c("code_muni", "territorialidades"))%>%
+  inner_join(x11, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x12, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x13, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x14, suffix = c("code_muni", "territorialidades"))%>%
@@ -186,6 +186,7 @@ data <- inner_join(x1, x2, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x16, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x17, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x18, suffix = c("code_muni", "territorialidades"))
+
 
 
 # data coutry  ------------------------------------------------------------
@@ -197,4 +198,4 @@ country2 <- filter(country, code_muni %in% code_muni_oeste)
 
 #data ACP -----------------------------------------------------------
 
-data_acp <- data[3:19]
+ write.csv2(data, file = "/home/rstudio/workspace/data/data.csv")

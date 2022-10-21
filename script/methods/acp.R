@@ -1,13 +1,20 @@
 # ACP ---------------------------------------------------------------------
+library(readr)
+municip <- read_delim("data/data.csv", 
+                        delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
+                        trim_ws = TRUE)%>%
+  rename(index =`...1`)
 
-var <- PCA(data_acp, graph = F)
-var <- PCA(data_acp, graph = T)
+data <- select(municip, -code_muni, -index)
 
+data <- data %>% janitor::clean_names()
 
-print(var)
+#data CPA -----------------------------------------------------------
+var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 17:18)
+
+data_var <- data[2:19] %>% PCA(scale.unit = T, graph = F)
 
 eig.var <- get_eigenvalue(var)
-
 
 ##Scree Plot 
 fviz_eig(var)
@@ -38,8 +45,21 @@ fviz_contrib(var, choice = "var", axes = 1, top = 18,
 #Contribuiçãp para PC2
 fviz_contrib(var, choice = "var", axes = 2, top = 18,
              title = "Contribuição das variáveis para a Dim 2")
+
+#Contribuiçãp para PC2
+fviz_contrib(var, choice = "var", axes = 3, top = 18,
+             title = "Contribuição das variáveis para a Dim 3")
+
+#Contribuiçãp para PC2
+fviz_contrib(var, choice = "var", axes = 4, top = 18,
+             title = "Contribuição das variáveis para a Dim 4")
+
+#Contribuiçãp para PC2
+fviz_contrib(var, choice = "var", axes = 5, top = 18,
+             title = "Contribuição das variáveis para a Dim 5")
+
 #VAriável com maior significância po PC 
-var.desc <- dimdesc(var, axes = c(1, 2, 3, 4), proba = 0.05)
+var.desc <- dimdesc(data_var, axes = c(1, 2, 3, 4, 5), proba = 0.05)
 print(var.desc)
 
 
