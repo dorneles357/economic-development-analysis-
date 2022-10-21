@@ -2,7 +2,7 @@
 code_muni_sc <- read_excel("data/code/code_muni_sc.xlsx", 
                                    col_types = c("numeric", "text", "text"))%>%
   select(code_muni, territorialidades)
-#código municípios AMAUC
+#código municípios OESTE SC
 code_muni_oeste <- read_excel("data/code/code_muni_oeste.xlsx", 
                               col_types = c("numeric", "text", "text"))
 code_muni_oeste <- array(code_muni_oeste$code_muni)
@@ -196,6 +196,6 @@ country <- read_municipality(code_muni = "SC", year = 2010)
 #select contry's of AMAUC
 country2 <- filter(country, code_muni %in% code_muni_oeste)
 
-#data ACP -----------------------------------------------------------
+#data -----------------------------------------------------------
 
  write.csv2(data, file = "/home/rstudio/workspace/data/data.csv")
