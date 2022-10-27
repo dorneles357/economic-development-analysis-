@@ -1,8 +1,6 @@
 
 # load data  --------------------------------------------------------------
-
-library(readr)
-fa_SC <- read_delim("data/data.csv", 
+fa_SC <- read_delim("data/data-2010.csv", 
                       delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
                       trim_ws = TRUE)%>%
   rename(index =`...1`)%>%
