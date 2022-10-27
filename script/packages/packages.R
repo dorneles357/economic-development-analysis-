@@ -18,7 +18,7 @@ library(factoextra)
 library(janitor)
 
 ##
-#library(geobr)
+library(geobr)
 #library(sf)
 #library(ggspatial)
 

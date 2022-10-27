@@ -1,6 +1,6 @@
 # ACP ---------------------------------------------------------------------
 library(readr)
-municip <- read_delim("data/data.csv", 
+municip <- read_delim("data/data-2010.csv", 
                         delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
                         trim_ws = TRUE)%>%
   rename(index =`...1`)

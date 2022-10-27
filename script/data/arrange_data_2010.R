@@ -198,4 +198,4 @@ country2 <- filter(country, code_muni %in% code_muni_oeste)
 
 #data -----------------------------------------------------------
 
- write.csv2(data, file = "/home/rstudio/workspace/data/data.csv")
+ write.csv2(data, file = "/home/rstudio/workspace/data/data-2010.csv")
