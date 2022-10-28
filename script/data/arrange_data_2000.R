@@ -98,19 +98,22 @@ tab16 <- read_excel("data/variables/2000/x16.xlsx",
                     col_types = c("text", "text", "numeric"))%>%
   rename(territorialidades = territorialidades...2,
          x16 = `IDHM 2000`,
-         )
+         )%>%
+  select(territorialidades, x16)
 
 tab17 <- read_excel("data/variables/2000/x17.xlsx", 
                     col_types = c("text", "text", "numeric"))%>%
   rename(territorialidades = territorialidades...2, 
          x17 = `Índice de Gini 2000`,
-         )
+         )%>%
+  select(territorialidades, x17)
 
 tab18 <- read_excel("data/variables/2000/x18.xlsx", 
                     col_types = c("text", "text", "numeric"))%>%
   rename(territorialidades = territorialidades...2, 
          x18 = `% de pessoas em domicílios urbanos com coleta de lixo 2000`,
-  )
+  )%>%
+  select(territorialidades, x18)
 
 # filtrar variáveis  ------------------------------------------------------
 
