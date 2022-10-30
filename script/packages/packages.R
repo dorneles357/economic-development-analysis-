@@ -1,4 +1,5 @@
 
+
 # packages ----------------------------------------------------------------
 ##
 library(readxl)
@@ -25,9 +26,3 @@ library(geobr)
 
 ##
 #library(RColorBrewer)
-
-
-
-
-
-

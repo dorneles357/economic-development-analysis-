@@ -1,15 +1,24 @@
 
+
 # load data  --------------------------------------------------------------
-fa_SC <- read_delim("data/data-2010.csv", 
-                      delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
-                      trim_ws = TRUE)%>%
-  rename(index =`...1`)%>%
-  select(-code_muni, -index, -x1, -x10, -x5, -x6, -x9, -x18)%>%
+fa_SC <- read_delim(
+  "data/data-2010.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-x1,-x10,-x5,-x6,-x9,-x18) %>%
   janitor::clean_names()
 
 # analysis ----------------------------------------------------------------
 
-fa <- fa(fa_SC[2:13], nfactors = 3, rotate = "varimax", scores = "regression")
+fa <-
+  fa(fa_SC[2:13],
+     nfactors = 3,
+     rotate = "varimax",
+     scores = "regression")
 
 fa <- na.omit(fa)
 
@@ -30,6 +39,3 @@ print(index)
 summary(index)
 
 boxplot(index)
-
-
-
