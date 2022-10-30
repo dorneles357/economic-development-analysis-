@@ -5,14 +5,14 @@ municip <- read_delim("data/data-2010.csv",
                         trim_ws = TRUE)%>%
   rename(index =`...1`)
 
-data <- select(municip, -code_muni, -index)
+data <- select(municip, -code_muni, -index, -x1, -x5, -x6, -x9, -x10, -x18)
 
 data <- data %>% janitor::clean_names()
 
 #data CPA -----------------------------------------------------------
-var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 17:18)
+var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 12:13)
 
-data_var <- data[2:19] %>% PCA(scale.unit = T, graph = F)
+data_var <- data[2:13] %>% PCA(scale.unit = T, graph = F)
 
 eig.var <- get_eigenvalue(var)
 
@@ -28,7 +28,7 @@ fviz_pca_var(var,
 
 #qualidade da representação
 corrplot::corrplot(var$var$cos2, is.corr = F)
-fviz_cos2(var, choice = "var", axes = 2:3, 
+fviz_cos2(var, choice = "var", axes = 2:5, 
           title = "Gráfico de barras para cos2")
 fviz_pca_var(var, 
              col.var = "cos2", 
@@ -70,3 +70,4 @@ write.infile(var, "data/acp/var.csv", sep = ";")
 
 #exportar vaolor dos PC 
 write.infile(var$ind$coord, "data/acp/PC.csv", sep = ";")
+

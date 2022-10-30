@@ -4,14 +4,14 @@ municip <- read_delim("data/data-2000.csv",
                       trim_ws = TRUE)%>%
   rename(index =`...1`)
 
-data <- select(municip, -code_muni, -index)
+data <- select(municip, -code_muni, -index, -x5, -x6, -x9, -x18)
 
 data <- data %>% janitor::clean_names()
 
 #data CPA -----------------------------------------------------------
-var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 15:16)
+var <- data %>% PCA(scale.unit = T, graph = T, quali.sup = 1, quanti.sup = 12:13)
 
-data_var <- data[2:17] %>% PCA(scale.unit = T, graph = F, ncp = 5)
+data_var <- data[2:13] %>% PCA(scale.unit = T, graph = F)
 
 eig.var <- get_eigenvalue(var)
 
@@ -28,7 +28,7 @@ fviz_pca_var(var,
 
 #qualidade da representação
 corrplot::corrplot(var$var$cos2, is.corr = F)
-fviz_cos2(var, choice = "var", axes = 2:3, 
+fviz_cos2(var, choice = "var", axes = 2:5, 
           title = "Gráfico de barras para cos2")
 fviz_pca_var(var, 
              col.var = "cos2", 
