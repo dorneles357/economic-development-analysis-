@@ -4,12 +4,14 @@ fa_SC <- read_delim("data/data-2000.csv",
                     delim = ";", escape_double = FALSE, locale = locale(decimal_mark = ","), 
                     trim_ws = TRUE)%>%
   rename(index =`...1`)%>%
-  select(-code_muni, -index)%>%
+  select(-code_muni, -index,)%>%
   janitor::clean_names()
 
 # analysis ----------------------------------------------------------------
 
-fa <- fa(fa_SC[2:17], nfactors = 5, rotate = "varimax", scores = "regression")
+fa <- fa(fa_SC[2:17], nfactors = 2, rotate = "varimax", scores = "regression")
+
+fa <- na.omit(fa)
 
 #kmo
 
@@ -26,6 +28,8 @@ index = (factor_score %*% characteristic_root) /  sum(characteristic_root)
 print(index)
 
 summary(index)
+
+boxplot(index)
 
 
 
