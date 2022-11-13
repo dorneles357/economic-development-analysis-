@@ -34,5 +34,6 @@
         "additional_source_columns": 0
     },
     "jobs_tab_visibility": "shown",
-    "source_with_echo": true
+    "source_with_echo": true,
+    "document_author": "Ebenézer Dorneles"
 }

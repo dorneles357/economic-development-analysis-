@@ -1,0 +1,377 @@
+---
+title: "Índice Bruto de Desenvolvimento (IBD)"
+author: "Ebenézer Dorneles"
+format: revealjs
+editor: visual
+---
+
+```{r, include=FALSE}
+library(readr)
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(GPArotation)
+library(psych)
+library(corrplot)
+library(geobr)
+library(sf)
+library(ggspatial)
+library(RColorBrewer)
+```
+
+```{r, include=FALSE}
+dataName <- fa_SC_2000 <- read_delim(
+  "/home/rstudio/workspace/data/data-2000.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(code_muni, territorialidades) %>%
+  janitor::clean_names()
+
+# load data  --------------------------------------------------------------
+fa_SC_2000 <- read_delim(
+  "/home/rstudio/workspace/data/data-2000.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-x5,-x6,-x9,-x18) %>%
+  janitor::clean_names()
+
+fa_SC_2010 <- read_delim(
+  "/home/rstudio/workspace/data/data-2010.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-x1,-x5,-x6,-x9, -x18) %>%
+  janitor::clean_names()
+
+# analysis ----------------------------------------------------------------
+
+faOne <-
+  fa(fa_SC_2000[2:14],
+     nfactors = 2,
+     scores = "regression", 
+     oblique.scores = T,
+     rotate = "varimax")
+
+
+
+faTwo <-
+  fa(fa_SC_2010[2:14],
+     nfactors = 2,
+     scores = "regression", 
+     oblique.scores = T,
+     rotate = "varimax")
+
+
+
+
+```
+
+```{r include=FALSE}
+corOne <- read_delim(
+  "/home/rstudio/workspace/data/data-2000.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index, -territorialidades) %>%
+  janitor::clean_names()
+```
+
+```{r include=FALSE}
+corTwo <- read_delim(
+  "/home/rstudio/workspace/data/data-2010.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-territorialidades, -x1) %>%
+  janitor::clean_names()
+```
+
+```{r, include=FALSE}
+factor_score_2000 <- as.matrix(faOne$scores[1:106, 1:2])
+
+characteristic_root_2000 <- as.matrix(faOne$Vaccounted[1, 1:2])
+
+index_2000 <-
+  (factor_score_2000 %*% characteristic_root_2000) /  sum(characteristic_root_2000)
+
+indexOne <-
+  tibble(dataName$code_muni, 
+         dataName$territorialidades, 
+         index_2000,
+         .name_repair = ~ c('code_muni', 'territorialidades', 'IDB'))
+
+```
+
+```{r, include=FALSE}
+
+factor_score_2010 <- as.matrix(faTwo$scores[1:106, 1:2])
+
+characteristic_root_2010 <- as.matrix(faTwo$Vaccounted[1, 1:2])
+
+index_2010 <-
+  (factor_score_2010 %*% characteristic_root_2010) /  sum(characteristic_root_2010)
+
+indexTwo <- tibble(dataName$code_muni, 
+         dataName$territorialidades, 
+         index_2010,
+         .name_repair = ~ c('code_muni', 'territorialidades', 'IDB'))
+```
+
+```{r, include=FALSE}
+#código municípios OESTE SC
+code_muni_oeste <- read_excel("/home/rstudio/workspace/data/code/code_muni_oeste.xlsx",
+                              col_types = c("numeric", "text", "text"))
+code_muni_oeste <- array(code_muni_oeste$code_muni)
+
+munic <- read_municipality(code_muni = "SC", year = 2010)
+
+munic2 <- filter(munic, code_muni %in% code_muni_oeste)
+
+munic3 <- inner_join(munic2, indexOne, by = 'code_muni' )
+
+munic4 <- inner_join(munic2, indexTwo, by = 'code_muni' )
+```
+
+## Observações
+
+O Projeto tem como um dos objetivos principais elaborar um modelo para a criação do Índice Bruto de Desenvolvimento (IDB) para os municipios que constituem a Região Geográfica Intermediária de Chapecó.
+
+## Variáveis
+
+-   Instituto Brasileiro de Geografia e Estatística entre os períodos do Censo 2000 e Censo 2010.
+
+## Análise Fatorial
+
+O método reduz o conjunto de dados em fatores ou dimensões que resumem as variáveis observadas. Um fator é a combinação linear das variáveis, com um peso que determina o quanto a variável contribui para o conjunto de dados observado.
+
+$$
+X_{1} = X_{i1} F_{1} + X_{i2} F_{2} + \cdots  + X_{ik} F_{k} + \epsilon_{i} 
+$$
+
+## Análise Fatorial
+
+[![](development-index_files/imgs/AF.png)](https://www.google.com/url?sa=i&url=https%3A%2F%2Fstatplace.com.br%2Fblog%2Fanalise-fatorial%2F&psig=AOvVaw0hZVez2sTupZOndn8iL6sL&ust=1667946687981000&source=images&cd=vfe&ved=0CA0QjRxqFwoTCKCeieGPnfsCFQAAAAAdAAAAABAE)
+
+## Ferramentas e métodos
+
+Nesse processo utilizaremos os testes de correlação de Pearson, de Esfericidade de Bartlett e o teste de Kaiser-Meyer-Olkin (KMO). Os testes foram realizados no Rstudio em linguagem R com os pacotes GPArotation, psych e corrplot.
+
+### Passos seguintes
+
+1.  Fatores
+
+2.  Equações características
+
+3.  Scores Fatoriais
+
+## Matriz de correlação ano 2000
+
+```{r echo=FALSE}
+corrplot(cor(corOne), method="circle")
+```
+
+Notas
+
+:   1.  Densidade demográfica não econtrada (x1)
+
+## Matriz de correlação ano 2010
+
+```{r echo=FALSE}
+corrplot(cor(corTwo), method="circle")
+```
+
+Notas
+
+:   Adotou-se a exclusão de variáveis sem correlação ou sem informação
+
+## Teste de Esfericidade de Bartlett
+
+Segundo Figueiredo filho e Silva Júnior (2010), o valor obtido com o teste de Esfericidade de Bartlett deve ser estatisticamente significante (P-valor \< 0,05).
+
+::: columns
+::: {.column width="50%"}
+```{r echo=FALSE}
+pValueOne <- cortest.bartlett(cor(fa_SC_2000[2:14]), 13)
+
+pValueOne$p.value %>% knitr::kable(
+  caption = 'Ano 2000',
+  col.names = 'p-value'
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r echo=FALSE}
+pValueTwo <- cortest.bartlett(cor(fa_SC_2010[2:14]), 13)
+
+pValueTwo$p.value %>% knitr::kable(
+  caption = 'Ano 2010',
+  col.names = 'p-value'
+  )
+```
+:::
+:::
+
+## Teste de Kaiser-Meyer-Olkin (KMO)
+
+O mínimo para que o modelo fatorial seja adequado varia de autor para autor. Destarte, aceita-se que o modelo seja adequado quando KMO \> 0,5.
+
+::: columns
+::: {.column width="50%"}
+```{r echo=FALSE}
+ kmoOne <- KMO(fa_SC_2000[2:14])
+ 
+ kmoOne$MSA%>% knitr::kable(
+  caption = 'Ano 2000',
+  col.names = 'KMO geral'
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r echo=FALSE}
+ kmoTwo <- KMO(fa_SC_2010[2:14])
+ 
+ kmoTwo$MSA%>% knitr::kable(
+  caption = 'Ano 2010',
+  col.names = 'KMO geral'
+  )
+```
+:::
+:::
+
+## Principais aspectos da análise
+
+1.  A matriz de correlação ajustada para ambos perídos;
+
+2.  Dados normalizados de acordo com o teste de Esfericidade de Bartlett;
+
+3.  Conjuntos de dados adequado para Análise Fatorial de acordo com o teste de Kaiser-Meyer-Olkin;
+
+4.  Determinar o número de fatores utilizando análise paralela;
+
+## Análise Paralela - 2000
+
+```{r echo=FALSE}
+fa.parallel(fa_SC_2000[2:14], fm = 'pa', fa = 'fa', main = 'Análise Paralela', n.iter = 500)
+```
+
+## Relação fator \| variável
+
+```{r echo=FALSE}
+fa.diagram(faOne)
+```
+
+## Análise Paralela - 2010
+
+```{r echo=FALSE}
+fa.parallel(fa_SC_2010[2:14], fm = 'pa', fa = 'fa', main = 'Análise Paralela', n.iter = 500)
+```
+
+## Relação fator \| variável
+
+```{r echo=FALSE}
+fa.diagram(faTwo)
+```
+
+## Índice Bruto de Desenvolvimento (IBD)
+
+Ao determinarmos os fatores e os seus principais autovalores podemos determinar os scores fatoriais para cada observação do nosso conjunto de dados pelo método de regressão (Field, 2009). Destarte, obtemos o Índice de Desenvolvimento Bruto  através da média ponderada pela raiz característica de cada fator.
+
+$$
+IBD = \frac{\sum_{i = 1}^{n}(W_{i}F_{i})}{\sum_{i = 1}^{n}W_{i}}
+$$
+
+## IDB - 2000
+
+::: columns
+::: {.column width="50%"}
+```{r echo=FALSE}
+
+summary(index_2000)%>% knitr::kable(
+  col.names = 'Dados descritivos'
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r echo=FALSE}
+boxplot(index_2000)
+```
+:::
+:::
+
+## IDB - 2010
+
+::: columns
+::: {.column width="50%"}
+```{r echo=FALSE}
+
+summary(index_2010)%>% knitr::kable(
+  col.names = 'Dados descritivos'
+  )
+```
+:::
+
+::: {.column width="50%"}
+```{r echo=FALSE}
+boxplot(index_2010)
+```
+:::
+:::
+
+## IDB - 2000
+
+```{r, echo=FALSE}
+
+ggplot(munic3) +
+  geom_sf(aes(fill = IDB , col = IDB)) +
+  geom_sf(data = munic2, fill = "transparent") +
+  scale_color_gradientn(colours = brewer.pal(9, "Spectral")) +
+  scale_fill_gradientn(colours = brewer.pal(9, "Spectral")) +
+  theme_minimal() +
+  annotation_scale(location = "bl") +
+  annotation_north_arrow(
+    location = "tl",
+    style = north_arrow_nautical(),
+    width = unit(1.8, "cm"),
+    height = unit(1.8, "cm")
+  ) +
+  labs(title = "Região Geográfica Intermediária de Chapecó - 2000") 
+```
+
+## IDB - 2010
+
+```{r, echo=FALSE}
+ggplot(munic4) +
+  geom_sf(aes(fill = IDB, col = IDB)) +
+  geom_sf(data = munic2, fill = "transparent") +
+  scale_color_gradientn(colours = brewer.pal(9, "Spectral")) +
+  scale_fill_gradientn(colours = brewer.pal(9, "Spectral")) +
+  theme_minimal() +
+  annotation_scale(location = "bl") +
+  annotation_north_arrow(
+    location = "tl",
+    style = north_arrow_nautical(),
+    width = unit(1.8, "cm"),
+    height = unit(1.8, "cm")
+  ) +
+  labs(title = "Região Geográfica Intermediária de Chapecó - 2010")
+```

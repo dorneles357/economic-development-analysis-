@@ -96,7 +96,34 @@ tab8 <- select(x15_x8_x9, territorialidades, x8)
 
 tab9 <- select(x15_x8_x9, territorialidades, x9)
 
-tab10 <- NULL
+tab10 <- read_excel(
+  "data/variables/2000/x10.xlsx",
+  range = "a4310:r4602",
+  col_types = c(
+    "text",
+    "text",
+    "text",
+    "text",
+    "numeric",
+    "text",
+    "text",
+    "text",
+    "text",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric",
+    "numeric"
+  ),
+  col_names = FALSE
+)%>%
+  rename(code_muni = ...5, x10 = ...18)%>%
+  select(code_muni, x10)%>%
+  janitor::clean_names()
 
 tab11 <- read_excel(
   "data/variables/2000/x11.xlsx",
@@ -162,7 +189,8 @@ x8 <- inner_join(code_muni_sc, tab8, by = 'territorialidades') %>%
 x9 <- inner_join(code_muni_sc, tab9, by = 'territorialidades') %>%
   filter(code_muni %in% code_muni_oeste)
 
-x10 <- NULL
+x10 <- inner_join(code_muni_sc, tab10, by = 'code_muni')%>%
+  filter(code_muni %in% code_muni_oeste)
 
 x11 <- inner_join(code_muni_sc, tab11, by = 'territorialidades') %>%
   filter(code_muni %in% code_muni_oeste)
@@ -199,7 +227,7 @@ data <-
   inner_join(x7, suffix = c("code_muni", "territorialidades")) %>%
   inner_join(x8, suffix = c("code_muni", "territorialidades")) %>%
   inner_join(x9, suffix = c("code_muni", "territorialidades")) %>%
-  #inner_join(x10, suffix = c("code_muni", "territorialidades"))%>%
+  inner_join(x10, suffix = c("code_muni", "territorialidades"))%>%
   inner_join(x11, suffix = c("code_muni", "territorialidades")) %>%
   inner_join(x12, suffix = c("code_muni", "territorialidades")) %>%
   inner_join(x13, suffix = c("code_muni", "territorialidades")) %>%

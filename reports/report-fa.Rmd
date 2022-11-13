@@ -1,0 +1,280 @@
+---
+title: "Índice de  desenvolvimento Bruto" #nome da variável
+author: "Ebenézer Dorneles" #seu nome
+date: '31/10/2022' #data da análise
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(readr)
+library(readxl)
+library(dplyr)
+library(GPArotation)
+library(psych)
+library(corrplot)
+```
+
+```{r, include=FALSE}
+
+# load data  --------------------------------------------------------------
+fa_SC_2000 <- read_delim(
+  "/home/rstudio/workspace/data/data-2000.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-x5,-x6,-x9,-x18) %>%
+  janitor::clean_names()
+
+fa_SC_2010 <- read_delim(
+  "/home/rstudio/workspace/data/data-2010.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-x1,-x5,-x6,-x9, -x18) %>%
+  janitor::clean_names()
+
+# analysis ----------------------------------------------------------------
+
+faOne <-
+  fa(fa_SC_2000[2:14],
+     nfactors = 2,
+     rotate = "varimax",
+     scores = "regression")
+
+
+
+faTwo <-
+  fa(fa_SC_2010[2:14],
+     nfactors = 2,
+     rotate = "varimax",
+     scores = "regression")
+
+
+
+
+```
+
+### Introdução
+
+O Projeto tem como um dos objetivos principais elaborar um modelo para a criação do Índice Bruto de Desenvolvimento (IDB) para os municipios que constituem a Região Geográfica Intermediária de Chapecó.
+
+As informações foram coletadas em plataformas digitais com dados abertos. São estes: DATASUS, IBGE Cidades, SIDRA, IPEADATA e Atlas Brasil. Todos os dados são oriundos do Instituto Brasileiro de Geografia e Estatística entre os períodos do Censo 2000 e Censo 2010.
+
+```{r echo=FALSE}
+variables <- read_excel("/home/rstudio/workspace/data/variables/variables.xlsx", 
+    range = "a1:b19")
+
+knitr::kable(variables)
+```
+
+## **Análise Fatorial (AF)**
+
+A Análise Fatorial de acordo Hair et al.(2006),  é uma série de técnicas em um processo estatístico multivariado tornando possível a observação de variáveis conjuntas que apresentam a mesma estrutura subjacente. O método reduz o conjunto de dados em fatores ou dimensões que resumem as variáveis observadas. Um fator é a combinação linear das variáveis, com um peso que determina o quanto a variável contribui para o conjunto de dados observado. Antes de criarmos os fatores, precisamos verificar o quão adequado o modelo AF é para o conjunto de dados. Nesse processo utilizaremos os testes de correlação de Pearson, de Esfericidade de Bartlett e o teste de Kaiser-Meyer-Olkin (KMO). Os testes foram realizados no Rstudio em linguagem R com os pacotes GPArotation, psych e corrplot.
+
+### **Teste de correlação de Pearson**
+
+Para determinar a matriz de correlação no conjunto de dados utilizaremos o método de correlação de Pearson que mede a relação linear entre duas variáveis quantitativas. Esse método correlaciona as variáveis pela variância compartilhada. Sendo assim, em um modelo de correlação linear supõe-se que o crescimento e o decrescimento de uma variável afete outra em mesmo impacto. Portanto, a correlação de Pearson exige um compartilhamento de variância e que essa variação seja distribuída linearmente (FIGUEIREDO FILHO E SILVA JÚNIOR, 2009). O coeficiente varia entre 1(relação positiva) e -1(relação negativa). Sendo o 0 a indicação de que não há correlação. No gráfico abaixo vemos a correlação das variáveis, os círculos em azul forte indicam uma relação próxima a 1 enquanto círculos na cor vermelha indicam uma relação próxima a -1.
+
+```{r include=FALSE}
+corOne <- read_delim(
+  "/home/rstudio/workspace/data/data-2000.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index, -territorialidades) %>%
+  janitor::clean_names()
+```
+
+```{r include=FALSE}
+corTwo <- read_delim(
+  "/home/rstudio/workspace/data/data-2010.csv",
+  delim = ";",
+  escape_double = FALSE,
+  locale = locale(decimal_mark = ","),
+  trim_ws = TRUE
+) %>%
+  rename(index = `...1`) %>%
+  select(-code_muni,-index,-territorialidades, -x1) %>%
+  janitor::clean_names()
+```
+
+### Teste de correlação para 2000
+
+Destarte nota-se que para o ano 2000, além das variáveis x1 e x10, as variáveis x5, x6, x9 e x18 não possuem relação nenhuma com as demais variáveis. A hipótese é que esses dados possuam valores faltantes para algumas observações, impossibilitando o cálculo de correlação. Para evitar que essas variáveis influenciem os testes seguintes será retirado esse conjunto dos dados para a análise.
+
+```{r echo=FALSE}
+corrplot(cor(corOne), method="circle")
+```
+
+### Teste de correlação para 2010
+
+Para o ano de 2010 a correlação entre as variáveis aumentou positivamente, porém a variável x9 ainda demonstra uma incoerência em seus valores que impossibilita a efetivação do cálculo de correlação.
+
+```{r echo=FALSE}
+corrplot(cor(corTwo), method="circle")
+```
+
+### **Teste de Esfericidade de Bartlett**
+
+O teste de Esfericidade de Bartlett requer que as variáveis tenham distribuição normal. Sendo assim o teste verifica a correlação dos dados com a hipótese nula: H0 (matriz identidade), indicando que não há correlação entre as variáveis. Rejeitando a hipótese nula, temos que as variáveis se correlacionam entre si. Segundo Figueiredo filho e Silva Júnior (2010), o valor obtido com o teste de Esfericidade de Bartlett deve ser estatisticamente significante (P-valor \< 0,05).
+
+```{r echo=FALSE}
+pValueOne <- cortest.bartlett(cor(fa_SC_2000[2:14]), 13)
+
+pValueOne$p.value %>% knitr::kable(
+  caption = 'Teste para o ano 2000',
+  col.names = 'p-value'
+  )
+
+```
+
+<div>
+
+```{r echo=FALSE}
+pValueTwo <- cortest.bartlett(cor(fa_SC_2010[2:14]), 13)
+
+pValueTwo$p.value %>% knitr::kable(
+  caption = 'Teste para o ano 2010',
+  col.names = 'p-value'
+  )
+```
+
+</div>
+
+### **Teste de Kaiser-Meyer-Olkin (KMO)**
+
+O teste KMO verifica a adequação do conjunto de dados com o modelo da Análise Fatorial. Segundo Mingoti (2007), quando as correlações parciais estão próximas a  zero, o coeficiente KMO está próximo de um, o que indica que o modelo está bem ajustado com os dados. O mínimo para que o modelo fatorial seja adequado varia de autor para autor. Destarte, aceita-se que o modelo seja adequado quando KMO \> 0,5. Caso o valor não esteja ajustado, a correção nos dados amostrais deverá ser feita através da exclusão de variáveis dentre as avaliadas, ou então, a inclusão de novas variáveis para melhorar a adequação do modelo.
+
+```{r echo=FALSE}
+ kmoOne <- KMO(fa_SC_2000[2:14])
+ 
+ kmoOne$MSA%>% knitr::kable(
+  caption = 'Teste para o ano 2000',
+  col.names = 'KMO geral'
+  )
+```
+
+```{r echo=FALSE}
+ kmoTwo <- KMO(fa_SC_2010[2:14])
+ 
+ kmoTwo$MSA%>% knitr::kable(
+  caption = 'Teste para o ano 2010',
+  col.names = 'KMO geral'
+  )
+```
+
+### **Análise Fatorial Exploratória**
+
+No decorrer dos testes de correlação, Esfericidade de Bartlett e Kaiser-Meyer-Olkin foi preciso realizar ajustes no conjunto de variáveis para que o modelo seja o mais adequado possível, pois a análise se baseia na matriz de correlação/covariância para elaboração dos fatores. A partir desses testes podemos adequar e melhorar o conjunto de dados para o modelo de análise fatorial. 
+
+Portanto, precisamos determinar as variáveis latentes do nosso conjunto, sendo assim utilizaremos a técnica de análise paralela do pacote physis. Esta função realiza interações entre os principais autovalores dos fatores com o peso de cada fator determinado pela variância do conjunto de dados. Por meio dessas interações é possível determinar o número adequado de fatores para utilização. Além deste teste, utilizaremos o critério empregado por De Oliveira e Da Silva (2017), em que  consideramos a escolha dos fatores aqueles que possuem um autovalor \> 1.
+
+### **Análise Exploratória para 2000**
+
+Para o ano 2000, temos dois fatores significativos para análise com um autovalor maior que um. Além disso, para cada fator existem as seguintes correlações.
+
+```{r echo=FALSE}
+fa.parallel(fa_SC_2000[2:14], fm = 'pa', fa = 'fa', main = 'Análise Paralela', n.iter = 500)
+```
+
+```{r echo=FALSE}
+fa.diagram(faOne)
+```
+
+### **Análise Exploratória para 2010**
+
+Para o ano de 2010, também é indicado a utilização de dois fatores, ambos com autovalores maiores que um, possuindo as seguintes correlações.
+
+```{r echo=FALSE}
+fa.parallel(fa_SC_2010[2:14], fm = 'pa', fa = 'fa', main = 'Análise Paralela', n.iter = 500)
+```
+
+```{r echo=FALSE}
+fa.diagram(faTwo)
+```
+
+### Índice de Desenvolvimento Bruto
+
+Ao determinarmos os fatores e os seus principais autovalores podemos determinar os scores fatoriais para cada observação do nosso conjunto de dados pelo método de regressão (Field, 2009). Destarte, obtemos o Índice de Desenvolvimento Bruto  através da média ponderada pela raiz característica de cada fator.
+
+### **Índice de desenvolvimento Bruto para 2000**
+
+```{r, include=FALSE}
+factor_score_2000 <- as.matrix(faOne$scores[1:106, 1:2])
+
+characteristic_root_2000 <- as.matrix(faOne$Vaccounted[1, 1:2])
+
+index_2000 <-
+  (factor_score_2000 %*% characteristic_root_2000) /  sum(characteristic_root_2000)
+
+```
+
+```{r echo=FALSE}
+
+summary(index_2000)%>% knitr::kable(
+  col.names = 'Dados descritivos'
+  )
+
+```
+
+```{r echo=FALSE}
+boxplot(index_2000)
+```
+
+### **Índice de desenvolvimento Bruto para 2010**
+
+```{r, include=FALSE}
+
+factor_score_2010 <- as.matrix(faTwo$scores[1:106, 1:2])
+
+characteristic_root_2010 <- as.matrix(faTwo$Vaccounted[1, 1:2])
+
+index_2010 <-
+  (factor_score_2010 %*% characteristic_root_2010) /  sum(characteristic_root_2010)
+
+```
+
+```{r echo=FALSE}
+
+summary(index_2010)%>% knitr::kable(
+  col.names = 'Dados descritivos'
+  )
+
+```
+
+```{r echo=FALSE}
+boxplot(index_2010)
+```
+
+### **Referências**
+
+1.  DE OLIVEIRA, Marines Rute; DA SILVA, Gerson Henrique. Análise espacial do desenvolvimento econômico dos municípios do oeste do Paraná. **Revista Capital Científico-Eletrônica (RCC)-ISSN 2177-4153**, v. 15, n. 2, p. 62-78, 2017.
+
+2.  HAIR, Jr; BLACK, W. C; BABIN, B. J; ANDERSON, R. E e TATHAM, R. L. **Multivariate Data Analysis.** 6ª edição. Upper Saddle River, NJ: Pearson Prentice Hall, 2006. 
+
+3.  MINGOTI,  S. **Análise  de  dados  através  de  métodos  de  estatística  multivariada: uma Abordagem Aplicada.** Editora UFMG, 2007.
+
+4.  FIGUEIREDO FILHO, Dalson Britto; SILVA JUNIOR, José Alexandre. **Desvendando os Mistérios do Coeficiente de Correlação de Pearson (r)**. Revista Política Hoje, v. 18, n. 1, p. 115-146, 2009.
+
+5.  FIGUEIREDO FILHO, Dalson Brito; SILVA JÚNIOR, José Alexandre da. **Visão além do alcance: uma introdução à análise fatorial**. Opinião pública, v. 16, n. 1, p. 160-185, 2010.
+
+6.  REVELLE, W. (2020) psych: Procedures for Personality and Psychological Research, Northwestern University, Evanston, Illinois, USA, [[https://CRAN.R-project.org/package=psych]{.underline}](https://CRAN.R-project.org/package=psych) [Version = 2.0.12,]{.underline}.
+
+7.  BERNAARDS, Coen A. and JENNRICH, Robert I. (2005) Gradient Projection Algorithms and Software for ArbitraryRotation Criteria in Factor Analysis, Educational and Psychological Measurement: 65, 676-696. \<[[http://www.stat.ucla.edu/research/gpa]{.underline}](http://www.stat.ucla.edu/research/gpa)\>
+
+8.  TAIYUN wei and VILIAM Simko (2017). R package "corrplot": Visualization of a Correlation Matrix (Version 0.84). Available from  [[https://github.com/taiyun/corrplot]{.underline}](https://github.com/taiyun/corrplot)

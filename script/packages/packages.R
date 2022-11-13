@@ -21,8 +21,9 @@ library(janitor)
 
 ##
 library(geobr)
-#library(sf)
-#library(ggspatial)
+library(sf)
+library(ggspatial)
 
 ##
-#library(RColorBrewer)
+library(RColorBrewer)
+
