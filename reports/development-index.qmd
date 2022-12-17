@@ -20,8 +20,8 @@ library(RColorBrewer)
 ```
 
 ```{r, include=FALSE}
-dataName <- fa_SC_2000 <- read_delim(
-  "/home/rstudio/workspace/data/data-2000.csv",
+dataName <- read_delim(
+  "/home/rstudio/workspace/data/norm-dataset/data-2000.csv",
   delim = ";",
   escape_double = FALSE,
   locale = locale(decimal_mark = ","),
@@ -31,9 +31,11 @@ dataName <- fa_SC_2000 <- read_delim(
   select(code_muni, territorialidades) %>%
   janitor::clean_names()
 
+
+
 # load data  --------------------------------------------------------------
 fa_SC_2000 <- read_delim(
-  "/home/rstudio/workspace/data/data-2000.csv",
+  "/home/rstudio/workspace/data/norm-dataset/data-2000.csv",
   delim = ";",
   escape_double = FALSE,
   locale = locale(decimal_mark = ","),
@@ -44,7 +46,7 @@ fa_SC_2000 <- read_delim(
   janitor::clean_names()
 
 fa_SC_2010 <- read_delim(
-  "/home/rstudio/workspace/data/data-2010.csv",
+  "/home/rstudio/workspace/data/norm-dataset/data-2010.csv",
   delim = ";",
   escape_double = FALSE,
   locale = locale(decimal_mark = ","),
@@ -57,7 +59,7 @@ fa_SC_2010 <- read_delim(
 # analysis ----------------------------------------------------------------
 
 faOne <-
-  fa(fa_SC_2000[2:14],
+  fa(fa_SC_2000[2:13],
      nfactors = 2,
      scores = "regression", 
      oblique.scores = T,
@@ -66,7 +68,7 @@ faOne <-
 
 
 faTwo <-
-  fa(fa_SC_2010[2:14],
+  fa(fa_SC_2010[2:13],
      nfactors = 2,
      scores = "regression", 
      oblique.scores = T,
@@ -79,7 +81,7 @@ faTwo <-
 
 ```{r include=FALSE}
 corOne <- read_delim(
-  "/home/rstudio/workspace/data/data-2000.csv",
+  "/home/rstudio/workspace/data/norm-dataset/data-2000.csv",
   delim = ";",
   escape_double = FALSE,
   locale = locale(decimal_mark = ","),
@@ -92,7 +94,7 @@ corOne <- read_delim(
 
 ```{r include=FALSE}
 corTwo <- read_delim(
-  "/home/rstudio/workspace/data/data-2010.csv",
+  "/home/rstudio/workspace/data/norm-dataset/data-2010.csv",
   delim = ";",
   escape_double = FALSE,
   locale = locale(decimal_mark = ","),

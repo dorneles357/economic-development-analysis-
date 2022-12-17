@@ -75,9 +75,24 @@ tab9 <- read_excel("data/variables/2010/tab9.xlsx") %>%
   rename(x9 = `Taxa de desocupação - 18 anos ou mais de idade 2010`) %>%
   select(territorialidades, x9)
 #
-tab10 <- read_excel("data/variables/2010/tab10.xlsx",
-                    col_names = FALSE,
-                    range = "a4347:K4639") %>%
+tab10 <- read_excel(
+  "data/variables/2010/tab10.xlsx",
+  col_names = FALSE,
+  range = "a4347:K4639",
+  col_types = c(
+    "text",
+    "text",
+    "text",
+    "numeric",
+    "text",
+    "text",
+    "text",
+    "text",
+    "text",
+    "numeric",
+    "text"
+  )
+) %>%
   rename(territorialidades = ...1,
          x10 = ...4) %>%
   select(territorialidades, x10)
@@ -226,4 +241,4 @@ country2 <- filter(country, code_muni %in% code_muni_oeste)
 
 #data -----------------------------------------------------------
 
-write.csv2(data, file = "/home/rstudio/workspace/data/data-2010.csv")
+write_excel_csv2(data, file = "/home/rstudio/workspace/data/data-2010.csv")
